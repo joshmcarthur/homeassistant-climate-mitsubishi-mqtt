@@ -24,32 +24,9 @@ various deprecations.
 
 ## How to use
 
-Copy the configuration out of `configuration.yaml` for the climate sensor:
+Copy [the configuration](https://github.com/joshmcarthur/homeassistant-climate-mitsubishi-mqtt/blob/main/configuration.yaml#L14) out of `configuration.yaml` for the climate sensor.
 
-```yaml
-climate:
-  - platform: mqtt
-    name: Mitsubishi Heatpump
-    swing_modes:
-    fan_modes:
-    mode_command_topic: "heatpump/set"
-    mode_command_template: >
-      {% if value == "off" -%}
-        {'power': 'OFF'}
-      {% elif value == "fan_only" -%}
-        {'power': 'ON', mode: 'FAN'}
-      {% else %}
-        {'power': 'ON', mode: '{{value | upper}}'}
-      {%- endif %}
-    json_attributes_topic: "heatpump"
-    temperature_command_topic: "heatpump/set"
-    temperature_command_template: "{ 'temperature': {{ value }} }"
-    temperature_unit: "C"
-    precision: 1.0
-```
-
-You probably want to change the name to something that is relevant to where the
-heatpump is.
+You probably want to change the name of the entity to something that is relevant to where the heatpump is or its purpose.
 
 ## How to test or try new things
 
@@ -63,4 +40,4 @@ You can hit the 'c' character then search for 'restart' to restart HA when
 trying out different config in configuration.yaml, or just stop and start the
 docker-compose service.
 
-If you are able to support something new, please open a PR with your configuration so others can benefit.
+If you are able to support something new, please open a PR with your configuration so others can benefit. There are a range of features that should be easy to support, I just haven't needed them since I almost always run my heatpump on auto fan, auto mode, and just change the temperature.
