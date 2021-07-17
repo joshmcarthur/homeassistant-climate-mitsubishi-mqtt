@@ -1,0 +1,15 @@
+version: "2"
+services:
+  home-assistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:latest
+    volumes:
+      # Home-assistant config directory
+      - ha_config:/config
+      - ./configuration.yaml:/config/configuration.yaml
+
+    ports:
+      # Expose home-assistant port on host interface
+      - 8123:8123
+volumes:
+  ha_config:

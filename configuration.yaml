@@ -1,0 +1,34 @@
+homeassistant:
+  name: Test Home
+default_config:
+frontend:
+http:
+logger:
+  default: info
+  logs:
+    homeassistant.components.mqtt: debug
+
+mqtt:
+  broker: 192.168.1.180
+
+climate:
+  - platform: mqtt
+    name: Mitsubishi Heatpump
+    swing_modes: # Not yet implemented, needs to follow something like mode_command_template
+    fan_modes: # Not yet implemented, needs to follow something like mode_command_template
+    min_temp: 16 # https://github.com/SwiCago/HeatPump
+    max_temp: 31 # https://github.com/SwiCago/HeatPump
+    mode_command_topic: "heatpump/set"
+    mode_command_template: >
+      {% if value == "off" -%}
+        {'power': 'OFF'}
+      {% elif value == "fan_only" -%}
+        {'power': 'ON', mode: 'FAN'}
+      {% else %}
+        {'power': 'ON', mode: '{{value | upper}}'}
+      {%- endif %}
+    json_attributes_topic: "heatpump"
+    temperature_command_topic: "heatpump/set"
+    temperature_command_template: "{ 'temperature': {{ value }} }"
+    temperature_unit: "C"
+    precision: 1.0
